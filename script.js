@@ -2,8 +2,10 @@ const searchInput = document.querySelector(`input`);
 const results = document.querySelector(`.results`);
 const cityName = document.querySelector(`.city-name`);
 const mainCard = document.querySelector(`.main-card`);
+const mainWeather = document.querySelector(`.main-weather`);
 
 // API Call for cities data
+
 const citiesEndPoint =
   'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
@@ -20,7 +22,7 @@ fetch(citiesEndPoint)
 // End API call for cities data
 
 // Api call for weather
-const weatherEndPoint = `https://api.openweathermap.org/data/2.5/onecall?lat=35.9940&lon=-78.8986&units=imperial&cnt=10&appid=2a8ab662e8539e2cb45726e6080084e6`;
+// const weatherEndPoint = `https://api.openweathermap.org/data/2.5/onecall?lat=35.9940&lon=-78.8986&units=imperial&cnt=10&appid=2a8ab662e8539e2cb45726e6080084e6`;
 
 function getWeatherData(lat, long) {
   fetch(
@@ -30,13 +32,47 @@ function getWeatherData(lat, long) {
       if (response.status === 200) return response.json();
       else alert(`Weather data failed: ${response.status}`);
     })
-    .then((data) => console.log(data));
+    .then((data) => {
+      console.log(data);
+      updateMainWeather(data);
+    });
 }
 // End api call for weather
 
 // Update HTML with weather data
 
-const updateHTML = (weatherData) => {};
+const updateMainWeather = (weatherData) => {
+  mainWeather.innerHTML = `
+  <p class="weather-description">${
+    weatherData.current.weather[0].description
+  }</p>
+  <img
+    class="weather-icon"
+    src="http://openweathermap.org/img/wn/${
+      weatherData.current.weather[0].icon
+    }@4x.png"
+  />
+  <div class="main-temp-container">
+    <p class="main-temp">${Math.round(weatherData.current.temp)}&deg;</p>
+
+    <div class="extra-weather">
+    <div class="extra-weather-content">
+      <div>wind</div>
+      <div>${Math.round(weatherData.current.wind_speed)} mph</div>
+    </div>
+    <div class="extra-weather-content">
+      <div>hum</div>
+      <div>${weatherData.current.humidity}%</div>
+    </div>
+    <div class="extra-weather-content">
+      <div>clouds</div>
+      <div>${weatherData.current.clouds}%</div>
+    </div>
+  </div>
+  </div>`;
+};
+
+const updateHourlyWeather = (weatherData) => {};
 
 // End update HTML with weather data
 
@@ -78,16 +114,21 @@ function displayMatches() {
 
   individualReslts.forEach((listItem) =>
     listItem.addEventListener(`click`, function () {
+      let { lat, long } = this.dataset;
+
       // Change values and styles
       searchInput.value = '';
       searchInput.style.width = '10%';
       searchInput.setAttribute(`placeholder`, `?`);
       results.innerHTML = '';
-      cityName.innerHTML = `<p class="city-name-header">
+      cityName.innerHTML = `<span class="material-symbols-outlined">pin_drop</span> 
+      <p class="city-name-header">
         ${cap(this.textContent.trim())}
-        <span class="material-symbols-outlined">pin_drop</span>
       </p>`;
       // End Change values and styles
+
+      // Grab weather info and update HTML
+      getWeatherData(Number(lat), Number(long));
     })
   );
 }
@@ -100,4 +141,12 @@ searchInput.addEventListener(`keyup`, displayMatches);
 searchInput.addEventListener(`click`, () => {
   searchInput.style.width = '60%';
   searchInput.setAttribute(`placeholder`, `Search for a city`);
+});
+
+// If user clicks out of the search box, than the input field, the input field shrinks.
+mainCard.addEventListener(`click`, function (e) {
+  if (searchInput.style.width === '60%' && e.target !== searchInput) {
+    searchInput.style.width = `10%`;
+    searchInput.setAttribute(`placeholder`, `?`);
+  }
 });

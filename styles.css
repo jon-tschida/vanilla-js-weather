@@ -18,7 +18,7 @@ body {
 
   margin: auto;
   width: 500px;
-  height: 700px;
+  height: 750px;
   background-color: rgb(223, 223, 223);
 
   border-radius: 15px;
@@ -74,32 +74,70 @@ body {
   margin-bottom: 5px;
   cursor: pointer;
 }
-
+.city-name {
+  display: flex;
+  align-items: center;
+  min-height: 35px;
+}
 .city-name-header {
   height: 35px;
   text-align: center;
   font-size: 30px;
 }
 
+.main-weather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .weather-icon {
-  border: 1px solid beige;
   width: 150px;
 }
 .main-temp-container {
   width: 80%;
-  border: 1px solid black;
   margin-top: 35px;
   display: flex;
-  flex-direction: column;
-  /* align-items: center; */
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 .main-temp {
   font-size: 80px;
 }
-.high-low {
+.extra-weather {
+  border: 1px solid black;
   font-size: 20px;
-  width: 80px;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.extra-weather-content {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+}
+
+.hourly-container {
+  width: 80%;
+  margin-top: 110px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /* align-items: center; */
+}
+
+.hour {
+  width: 80px;
+  height: 120px;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-around;
 }
