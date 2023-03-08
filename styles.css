@@ -107,7 +107,6 @@ body {
   font-size: 80px;
 }
 .extra-weather {
-  border: 1px solid black;
   font-size: 20px;
   width: fit-content;
   display: flex;

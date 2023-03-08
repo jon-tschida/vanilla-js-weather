@@ -3,6 +3,7 @@ const results = document.querySelector(`.results`);
 const cityName = document.querySelector(`.city-name`);
 const mainCard = document.querySelector(`.main-card`);
 const mainWeather = document.querySelector(`.main-weather`);
+const hourlyWeather = document.querySelector(`.hourly-container`);
 
 // API Call for cities data
 
@@ -33,8 +34,8 @@ function getWeatherData(lat, long) {
       else alert(`Weather data failed: ${response.status}`);
     })
     .then((data) => {
-      console.log(data);
       updateMainWeather(data);
+      updateHourlyWeather(data);
     });
 }
 // End api call for weather
@@ -72,7 +73,20 @@ const updateMainWeather = (weatherData) => {
   </div>`;
 };
 
-const updateHourlyWeather = (weatherData) => {};
+const updateHourlyWeather = (weatherData) => {
+  weatherData.hourly.forEach((hour, i) => {
+    if (i < 5 && i > 0) {
+      hourlyWeather.innerHTML += `<div class="hour">
+      <p>${Math.round(hour.temp)}&deg;</p>
+      <img
+        class="hourly-icon"
+        src="http://openweathermap.org/img/wn/${hour.weather[0].icon}.png"
+      />
+      <p>${hour.weather[0].main}</p>
+    </div>`;
+    }
+  });
+};
 
 // End update HTML with weather data
 
