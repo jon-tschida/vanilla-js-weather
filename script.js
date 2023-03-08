@@ -145,6 +145,8 @@ function displayMatches() {
       <p class="city-name-header">
         ${cap(this.textContent.trim())}
       </p>`;
+
+      hourlyWeather.innerHTML = ``;
       // End Change values and styles
 
       // Grab weather info and update HTML
