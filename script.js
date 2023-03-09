@@ -6,6 +6,18 @@ const mainCard = document.querySelector(`.main-card`);
 const mainWeather = document.querySelector(`.main-weather`);
 const hourlyWeather = document.querySelector(`.hourly-container`);
 
+// formatting the time //
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
 // ========================
 // API Call for cities data
 
@@ -89,6 +101,7 @@ const updateHourlyWeather = (weatherData) => {
   weatherData.hourly.forEach((hour, i) => {
     if (i < 5 && i > 0) {
       hourlyWeather.innerHTML += `<div class="hour">
+      <p>${formatAMPM(new Date(hour.dt * 1000))}</p>
       <p>${Math.round(hour.temp)}&deg;</p>
       <img
         class="hourly-icon"
@@ -120,13 +133,10 @@ function displayMatches() {
     .map((place) => {
       const regex = new RegExp(this.value, `gi`);
 
-      const cityName = place.city.replace(
-        regex,
-        `<span class="hl">${this.value}</span>`
-      );
+      const cityName = place.city.replace(regex, `<span>${this.value}</span>`);
       const stateName = place.state.replace(
         regex,
-        `<span class="hl">${this.value}</span>`
+        `<span>${this.value}</span>`
       );
 
       return `
