@@ -1,3 +1,4 @@
+const loader = document.querySelector(`.lds-ring`);
 const searchInput = document.querySelector(`input`);
 const results = document.querySelector(`.results`);
 const cityName = document.querySelector(`.city-name`);
@@ -27,16 +28,25 @@ fetch(citiesEndPoint)
 // Api call for weather
 
 function getWeatherData(lat, long) {
+  mainWeather.innerHTML = ``;
+  hourlyWeather.innerHTML = ``;
+  loader.classList.remove(`hide`);
+  console.log(`loading..`);
   fetch(
     `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=imperial&cnt=10&appid=2a8ab662e8539e2cb45726e6080084e6`
   )
     .then((response) => {
-      if (response.status === 200) return response.json();
-      else alert(`Weather data failed: ${response.status}`);
+      if (response.status === 200) {
+        console.log(`loaded!`);
+        return response.json();
+      } else alert(`Weather data failed: ${response.status}`);
     })
     .then((data) => {
-      updateMainWeather(data);
-      updateHourlyWeather(data);
+      setTimeout(() => {
+        loader.classList.add(`hide`);
+        updateMainWeather(data);
+        updateHourlyWeather(data);
+      }, 1000);
     });
 }
 // End api call for weather
@@ -129,11 +139,11 @@ function displayMatches() {
   this.value ? (results.innerHTML = html) : (results.innerHTML = '');
 
   // using querySelectorAll to grab our results
+
   let individualReslts = Array.from(document.querySelectorAll('li'));
   individualReslts.forEach((listItem) =>
     listItem.addEventListener(`click`, function () {
       let { lat, long } = this.dataset;
-
       // Change values and styles
       searchInput.value = '';
       searchInput.style.width = '10%';
