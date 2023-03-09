@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
 * {
   margin: 0px;
   padding: 0px;
@@ -8,6 +9,7 @@ body {
   height: 100vh;
   width: 100vw;
   background-color: #4b545f;
+  font-family: 'Poppins', sans-serif;
 }
 
 .main-card {
@@ -23,11 +25,11 @@ body {
 
   border-radius: 15px;
   box-shadow: 0px 0px 5px black;
+
   background: linear-gradient(
-    10deg,
-    rgba(7, 0, 125, 1) 0%,
-    rgba(9, 9, 121, 1) 0%,
-    rgba(0, 70, 129, 1) 0%,
+    12deg,
+    rgba(249, 249, 249, 1) 10%,
+    rgba(9, 9, 121, 1) 35%,
     rgba(0, 212, 255, 1) 100%
   );
 }
@@ -56,6 +58,12 @@ body {
 }
 
 .results {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 450px;
   padding: 10px;
   text-align: center;
   font-size: 25px;
@@ -67,16 +75,23 @@ body {
   text-decoration: none;
   list-style: none;
   padding: 10px;
-  box-shadow: 0px 0px 3px black;
-  background-color: grey;
-  border-radius: 15px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(25px);
   cursor: pointer;
+}
+.results > li:nth-child(1) {
+  border-radius: 5px 5px 0px 0px;
+}
+.results > li:last-child {
+  border-radius: 0px 0px 5px 5px;
+}
+.results > li:hover {
+  background-color: rgb(0, 162, 162);
+  color: white;
 }
 .city-name {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   min-height: 35px;
 }
 .city-name-header {
@@ -85,7 +100,16 @@ body {
   font-size: 30px;
 }
 
+.weather-description {
+  margin-bottom: -25px;
+  color: black;
+  font-size: 30px;
+  margin-top: 25px;
+  font-weight: 300;
+}
+
 .main-weather {
+  color: #eeeeee;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,11 +117,11 @@ body {
 }
 
 .weather-icon {
-  width: 150px;
+  width: 250px;
 }
 .main-temp-container {
+  margin: -25px;
   width: 80%;
-  margin-top: 35px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -116,12 +140,14 @@ body {
 .extra-weather-content {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .hourly-container {
+  color: #eeeeee;
   width: 80%;
-  margin-top: 110px;
+  margin: auto;
+  margin-top: 100px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -134,6 +160,7 @@ body {
   border: 1px solid black;
   border-radius: 15px;
   padding: 5px;
+  background-color: #4b545f;
 
   display: flex;
   flex-direction: column;
