@@ -1,3 +1,4 @@
+// Select our DOM elements
 const loader = document.querySelector(`.lds-ring`);
 const searchInput = document.querySelector(`input`);
 const results = document.querySelector(`.results`);
@@ -6,8 +7,11 @@ const mainWeather = document.querySelector(`.main-weather`);
 const hourlyWeather = document.querySelector(`.hourly-container`);
 const body = document.querySelector(`body`);
 
+// Import our functions
 import updateHourlyWeather from './functions/updateHourlyWeather.js';
 import updateMainWeather from './functions/updateMainWeather.js';
+import fetchCities from './functions/fetchCities.js';
+import capitalize from './functions/capitalize.js';
 
 // ========================
 // API Calls
@@ -19,14 +23,7 @@ const citiesEndPoint =
   'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
 const cities = [];
-
-fetch(citiesEndPoint)
-  .then((response) => {
-    if (response.status === 200) return response.json();
-    else
-      alert(`Data failed to be retrieved with this error: ${response.status}`);
-  })
-  .then((data) => cities.push(...data));
+fetchCities(citiesEndPoint, cities);
 
 ////////////
 // Api call for weather
@@ -56,10 +53,7 @@ function getWeatherData(lat, long) {
 // End api call for weather
 
 // ========================
-// Functions for filtering and displaying the cities search
-
-// function to capitalize
-const cap = (word) => word.replace(word[0], word[0].toUpperCase());
+// Functions for filtering and displaying the cities from the users search
 
 const findMatch = (wordToMatch, cities) => {
   return cities.filter((place) => {
@@ -102,7 +96,7 @@ function displayMatches() {
       results.innerHTML = '';
       cityName.innerHTML = `<span class="material-symbols-outlined">pin_drop</span> 
       <p class="city-name-header">
-        <u>${cap(this.textContent.trim())}</u>
+        <u>${capitalize(this.textContent.trim())}</u>
       </p>`;
 
       hourlyWeather.innerHTML = ``;
@@ -114,7 +108,7 @@ function displayMatches() {
   );
 }
 
-// End filter and display functions
+// End filter and display function
 
 // Event Listeners
 
