@@ -2,9 +2,9 @@ const loader = document.querySelector(`.lds-ring`);
 const searchInput = document.querySelector(`input`);
 const results = document.querySelector(`.results`);
 const cityName = document.querySelector(`.city-name`);
-const mainCard = document.querySelector(`.main-card`);
 const mainWeather = document.querySelector(`.main-weather`);
 const hourlyWeather = document.querySelector(`.hourly-container`);
+const body = document.querySelector(`body`);
 
 import updateHourlyWeather from './functions/updateHourlyWeather.js';
 import updateMainWeather from './functions/updateMainWeather.js';
@@ -124,8 +124,8 @@ searchInput.addEventListener(`click`, () => {
   searchInput.setAttribute(`placeholder`, `Search for a city`);
 });
 
-// If user clicks out of the search box, the input field down shrinks.
-mainCard.addEventListener(`click`, function (e) {
+// If user clicks out of the search box, the input field shrinks down.
+body.addEventListener(`click`, function (e) {
   if (searchInput.style.width === '60%' && e.target !== searchInput) {
     searchInput.style.width = `10%`;
     searchInput.setAttribute(`placeholder`, `?`);
