@@ -6,19 +6,13 @@ const mainCard = document.querySelector(`.main-card`);
 const mainWeather = document.querySelector(`.main-weather`);
 const hourlyWeather = document.querySelector(`.hourly-container`);
 
-// formatting the time //
-function formatAMPM(date) {
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  var ampm = hours >= 12 ? 'pm' : 'am';
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  var strTime = hours + ':' + minutes + ' ' + ampm;
-  return strTime;
-}
+import updateHourlyWeather from './functions/updateHourlyWeather.js';
+import updateMainWeather from './functions/updateMainWeather.js';
 
 // ========================
+// API Calls
+
+////////////
 // API Call for cities data
 
 const citiesEndPoint =
@@ -34,9 +28,7 @@ fetch(citiesEndPoint)
   })
   .then((data) => cities.push(...data));
 
-// End API call for cities data
-
-// ========================
+////////////
 // Api call for weather
 
 function getWeatherData(lat, long) {
@@ -56,68 +48,17 @@ function getWeatherData(lat, long) {
     .then((data) => {
       setTimeout(() => {
         loader.classList.add(`hide`);
-        updateMainWeather(data);
-        updateHourlyWeather(data);
+        updateMainWeather(data, mainWeather);
+        updateHourlyWeather(data, hourlyWeather);
       }, 1000);
     });
 }
 // End api call for weather
 
 // ========================
-// Update HTML with weather data and hourly weather data
+// Functions for filtering and displaying the cities search
 
-const updateMainWeather = (weatherData) => {
-  mainWeather.innerHTML = `
-  <p class="weather-description">${
-    weatherData.current.weather[0].description
-  }</p>
-  <img
-    class="weather-icon"
-    src="http://openweathermap.org/img/wn/${
-      weatherData.current.weather[0].icon
-    }@4x.png"
-  />
-  <div class="main-temp-container">
-    <p class="main-temp">${Math.round(weatherData.current.temp)}&deg;</p>
-
-    <div class="extra-weather">
-    <div class="extra-weather-content">
-      <div><span class="material-symbols-outlined">air</span></div>
-      <div>${Math.round(weatherData.current.wind_speed)}mph</div>
-    </div>
-    <div class="extra-weather-content">
-      <div><span class="material-symbols-outlined">humidity_percentage</span></div>
-      <div>${weatherData.current.humidity}%</div>
-    </div>
-    <div class="extra-weather-content">
-      <div><span class="material-symbols-outlined">cloud</span></div>
-      <div>${weatherData.current.clouds}%</div>
-    </div>
-  </div>
-  </div>`;
-};
-
-const updateHourlyWeather = (weatherData) => {
-  weatherData.hourly.forEach((hour, i) => {
-    if (i < 5 && i > 0) {
-      hourlyWeather.innerHTML += `<div class="hour">
-      <p>${formatAMPM(new Date(hour.dt * 1000))}</p>
-      <p>${Math.round(hour.temp)}&deg;</p>
-      <img
-        class="hourly-icon"
-        src="http://openweathermap.org/img/wn/${hour.weather[0].icon}.png"
-      />
-      <p>${hour.weather[0].main}</p>
-    </div>`;
-    }
-  });
-};
-
-// End update HTML with weather data
-
-// ========================
-// Functions for filtering and displaying the cities search\
-
+// function to capitalize
 const cap = (word) => word.replace(word[0], word[0].toUpperCase());
 
 const findMatch = (wordToMatch, cities) => {
@@ -165,9 +106,6 @@ function displayMatches() {
       </p>`;
 
       hourlyWeather.innerHTML = ``;
-
-      mainCard.style.background =
-        'linear-gradient(12deg, rgba(249, 249, 249, 1) 10%, rgba(9, 9, 121, 1) 35%,rgba(0, 212, 255, 1) 100%);';
       // End Change values and styles
 
       // Grab weather info and update HTML
