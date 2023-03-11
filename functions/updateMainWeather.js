@@ -15,7 +15,7 @@ export default function updateMainWeather(weatherData, html) {
       <div class="extra-weather">
       <div class="extra-weather-content">
         <div><span class="material-symbols-outlined">air</span></div>
-        <div>${Math.round(weatherData.current.wind_speed)}mph</div>
+        <div>${Math.round(weatherData.current.wind_speed)} mph</div>
       </div>
       <div class="extra-weather-content">
         <div><span class="material-symbols-outlined">humidity_percentage</span></div>
