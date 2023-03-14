@@ -70,7 +70,7 @@ body {
 
 .results {
   position: absolute;
-  top: 80px;
+  top: 50px;
   left: 0;
   right: 0;
   margin: auto;
@@ -106,7 +106,7 @@ body {
   min-height: 35px;
 }
 .city-name-header {
-  height: 35px;
+  height: fit-content;
   text-align: center;
   font-size: 30px;
 }
